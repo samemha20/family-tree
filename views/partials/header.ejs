@@ -1,0 +1,22 @@
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title"><%= pageTitle || "شجرة العائلة" %></div>
+      <div class="subtitle"><%= pageSubtitle || "" %></div>
+    </div>
+  </div>
+
+  <nav class="topnav" aria-label="التنقل الرئيسي">
+    <a class="navLink <%= active === 'tree' ? 'active' : '' %>" href="/">الشجرة</a>
+    <a class="navLink <%= active === 'about' ? 'active' : '' %>" href="/about">نبذة</a>
+    <a class="navLink <%= active === 'honor' ? 'active' : '' %>" href="/honor">قائمة الشرف</a>
+    <a class="navLink <%= active === 'tree-pdf' ? 'active' : '' %>" href="/tree-pdf">شجرة PDF</a>
+    <a class="navLink <%= active === 'support' ? 'active' : '' %>" href="/support">الدعم</a>
+  </nav>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin/login">لوحة الإدارة</a>
+  </div>
+</header>

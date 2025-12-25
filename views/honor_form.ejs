@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= mode==="new" ? "إضافة عنصر شرف" : "تعديل عنصر شرف" %></title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title"><%= mode==="new" ? "إضافة عنصر شرف" : "تعديل عنصر شرف" %></div>
+      <div class="subtitle">بيانات كارت قائمة الشرف</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin/honor">رجوع</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="card">
+    <div class="cardHeader"><div style="font-weight:950">البيانات</div></div>
+    <div class="cardBody">
+
+      <form method="post" action="<%= mode==='new' ? '/admin/honor/new' : ('/admin/honor/' + item.id + '/edit') %>">
+        <label>الاسم</label>
+        <input class="input" name="name" required value="<%= item?.name || '' %>">
+
+        <label>المجال</label>
+        <input class="input" name="field" value="<%= item?.field || '' %>">
+
+        <label>الإنجاز/الوصف</label>
+        <textarea class="input" name="achievement" rows="4"><%= item?.achievement || '' %></textarea>
+
+        <label>رابط الصورة (اختياري)</label>
+        <input class="input" name="photo_url" value="<%= item?.photo_url || '' %>" placeholder="/uploads/xxx.jpg أو رابط خارجي">
+
+        <label>الترتيب (ord)</label>
+        <input class="input" name="ord" type="number" value="<%= item?.ord || 1 %>">
+
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">حفظ</button>
+          <a class="ghostBtn" href="/admin/honor" style="text-decoration:none">إلغاء</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

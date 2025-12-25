@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= page?.title || "صفحة" %></title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title"><%= page?.title || "" %></div>
+      <div class="subtitle"><%= page?.subtitle || "" %></div>
+    </div>
+  </div>
+
+  <nav class="topnav">
+    <a class="navLink" href="/">الشجرة</a>
+    <a class="navLink active" href="/about">نبذة</a>
+    <a class="navLink" href="/honor">قائمة الشرف</a>
+    <a class="navLink" href="/tree-pdf">شجرة PDF</a>
+    <a class="navLink" href="/support">الدعم</a>
+  </nav>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin/login">لوحة الإدارة</a>
+  </div>
+</header>
+
+<main class="page">
+  <div class="card">
+    <div class="cardHeader"><div style="font-weight:950">المحتوى</div></div>
+    <div class="cardBody">
+      <div style="line-height:1.9" class="muted">
+        <%= (page?.content || "لا يوجد محتوى بعد. يمكن تعديله من لوحة الإدارة > إدارة الصفحات.").replace(/\n/g, "<br>") %>
+      </div>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

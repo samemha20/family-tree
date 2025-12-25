@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= mode === "new" ? "إضافة شخص" : "تعديل شخص" %></title>
+
+  <!-- Theme must load early -->
+  <script src="/theme.js"></script>
+
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+      <div class="brandText">
+        <div class="title"><%= mode === "new" ? "إضافة شخص" : "تعديل شخص" %></div>
+        <div class="subtitle">أضف البيانات بدقة — ويمكن إضافة أكثر من زوج/زوجة + رفع صورة</div>
+      </div>
+    </div>
+
+    <nav class="topnav" aria-label="التنقل الرئيسي">
+      <a class="navLink" href="/">الشجرة</a>
+      <a class="navLink" href="/pages/about.html">نبذة</a>
+      <a class="navLink" href="/pages/honor.html">قائمة الشرف</a>
+      <a class="navLink" href="/pages/support.html">الدعم</a>
+      <a class="navLink" href="/pages/tree-pdf.html">شجرة PDF</a>
+    </nav>
+
+    <div class="actions">
+      <button id="themeToggle" class="adminBtn" type="button" aria-pressed="true">الوضع: داكن</button>
+      <a class="adminBtn" href="/admin">رجوع</a>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="card">
+      <div class="cardHeader">
+        <div>
+          <div style="font-weight:950">بيانات الشخص</div>
+          <div class="small">املأ الحقول الأساسية أولاً، ثم البيانات الإضافية</div>
+        </div>
+        <a class="ghostBtn" href="/admin" style="text-decoration:none">عودة للقائمة</a>
+      </div>
+
+      <div class="cardBody">
+
+        <form method="post" action="<%= mode === 'new' ? '/admin/person/new' : ('/admin/person/' + person.id + '/edit') %>">
+
+          <!-- Basic info -->
+          <div class="card" style="margin-bottom:12px;">
+            <div class="cardHeader">
+              <div>
+                <div style="font-weight:950">المعلومات الأساسية</div>
+                <div class="small">الاسم + الأب + الميلاد</div>
+              </div>
+            </div>
+            <div class="cardBody">
+              <label>الاسم</label>
+              <input class="input" name="name" required value="<%= person?.name || '' %>" placeholder="مثال: أحمد محمد علي">
+
+              <label>الأب</label>
+              <select class="input" name="father_id">
+                <option value="">— بدون —</option>
+                <% persons.forEach(x => { %>
+                  <option value="<%= x.id %>" <%= person?.father_id == x.id ? 'selected' : '' %>><%= x.name %></option>
+                <% }) %>
+              </select>
+
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                <div>
+                  <label>تاريخ الميلاد</label>
+                  <input class="input" name="birth_date" value="<%= person?.birth_date || '' %>" placeholder="مثال: 2004-08-20">
+                </div>
+                <div>
+                  <label>العمل</label>
+                  <input class="input" name="job" value="<%= person?.job || '' %>" placeholder="مثال: مهندس / طبيب / ...">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spouses -->
+          <div class="card" style="margin-bottom:12px;">
+            <div class="cardHeader">
+              <div>
+                <div style="font-weight:950">الزوج / الزوجة</div>
+                <div class="small">أضف واحد أو أكثر — ترتيب السطور هو ترتيب العرض</div>
+              </div>
+              <button type="button" id="addSpouse" class="ghostBtn">+ إضافة زوج/زوجة</button>
+            </div>
+
+            <div class="cardBody">
+              <div id="spousesWrap" style="display:grid; gap:10px;">
+                <% const list = (spouseNames && spouseNames.length) ? spouseNames : [""]; %>
+                <% list.forEach((nm) => { %>
+                  <div class="spRow" style="display:flex; gap:10px; align-items:center;">
+                    <input class="input" name="spouse_names" value="<%= nm %>" placeholder="مثال: نورة الخولي">
+                    <button type="button" class="ghostBtn spRemove" style="min-width:90px">حذف</button>
+                  </div>
+                <% }) %>
+              </div>
+
+              <div class="small" style="margin-top:10px">
+                نصيحة: لو عايز تمنع التكرار أو تعمل اختيار من قائمة، نقدر نطوّرها بعدين.
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo -->
+          <div class="card" style="margin-bottom:12px;">
+            <div class="cardHeader">
+              <div>
+                <div style="font-weight:950">الصورة</div>
+                <div class="small">اختيار صورة → رفع تلقائي → يتملأ photo_url</div>
+              </div>
+            </div>
+
+            <div class="cardBody">
+              <label>الصورة (رفع من الجهاز)</label>
+              <input class="input" type="file" id="photoFile" accept="image/*">
+
+              <div class="small" style="margin-top:6px">
+                بعد اختيار الصورة سيتم رفعها تلقائيًا ووضع الرابط في خانة <b>photo_url</b>.
+              </div>
+
+              <div style="display:flex; gap:12px; align-items:flex-start; margin-top:12px; flex-wrap:wrap">
+                <div style="display:grid; gap:8px; align-items:start;">
+                  <img id="photoPreview" class="preview" src="<%= person?.photo_url || '/images/default.png' %>" alt="معاينة">
+                  <button type="button" id="clearPhoto" class="ghostBtn" style="width:120px">مسح</button>
+                </div>
+
+                <div style="flex:1; min-width:260px">
+                  <label>photo_url (يُملأ تلقائيًا بعد الرفع)</label>
+                  <input class="input" name="photo_url" id="photo_url" value="<%= person?.photo_url || '' %>" placeholder="/uploads/xxx.jpg أو /images/xxx.jpg">
+                  <div class="small" style="margin-top:6px">
+                    يمكنك وضع رابط يدويًا (محلي) مثل: <b>/images/hazem.jpg</b>
+                  </div>
+                  <div id="uploadState" class="small" style="margin-top:8px; display:none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="card" style="margin-bottom:12px;">
+            <div class="cardHeader">
+              <div>
+                <div style="font-weight:950">ملاحظات</div>
+                <div class="small">أي تفاصيل إضافية عن الشخص</div>
+              </div>
+            </div>
+            <div class="cardBody">
+              <label>ملاحظات</label>
+              <textarea class="input" name="notes" rows="4" placeholder="مثال: لقب / مكان الإقامة / معلومات إضافية..."><%= person?.notes || '' %></textarea>
+            </div>
+          </div>
+
+          <div class="btnRow">
+            <button class="primaryBtn" type="submit">حفظ</button>
+            <a class="ghostBtn" href="/admin" style="text-decoration:none">إلغاء</a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Photo upload (same endpoints) =====
+    const fileInput = document.getElementById("photoFile");
+    const photoUrl = document.getElementById("photo_url");
+    const preview = document.getElementById("photoPreview");
+    const uploadState = document.getElementById("uploadState");
+    const clearBtn = document.getElementById("clearPhoto");
+
+    function setState(text, ok){
+      uploadState.style.display = "block";
+      uploadState.style.color = ok ? "#22c55e" : "#ef4444";
+      uploadState.style.fontWeight = "900";
+      uploadState.textContent = text;
+    }
+
+    clearBtn.addEventListener("click", () => {
+      fileInput.value = "";
+      photoUrl.value = "";
+      preview.src = "/images/default.png";
+      uploadState.style.display = "none";
+    });
+
+    fileInput.addEventListener("change", async () => {
+      if (!fileInput.files || !fileInput.files.length) return;
+
+      const file = fileInput.files[0];
+
+      // quick local preview
+      preview.src = URL.createObjectURL(file);
+      setState("جاري رفع الصورة...", true);
+
+      const fd = new FormData();
+      fd.append("photo", file);
+
+      try{
+        const r = await fetch("/admin/upload", { method: "POST", body: fd });
+        if (!r.ok) { setState("فشل رفع الصورة", false); return; }
+
+        const data = await r.json();
+        photoUrl.value = data.url;
+        preview.src = data.url;
+
+        setState("تم رفع الصورة بنجاح — اضغط حفظ لتثبيتها.", true);
+      }catch(e){
+        setState("حدث خطأ أثناء الرفع", false);
+      }
+    });
+
+    // ===== Spouses dynamic rows =====
+    const wrap = document.getElementById("spousesWrap");
+
+    function bindRemoveButtons(){
+      wrap.querySelectorAll(".spRemove").forEach(btn => {
+        btn.onclick = () => {
+          const row = btn.closest(".spRow");
+          if (!row) return;
+          const rows = wrap.querySelectorAll(".spRow");
+          if (rows.length === 1){
+            row.querySelector("input").value = "";
+            return;
+          }
+          row.remove();
+        };
+      });
+    }
+    bindRemoveButtons();
+
+    document.getElementById("addSpouse").onclick = () => {
+      const div = document.createElement("div");
+      div.className = "spRow";
+      div.style.display = "flex";
+      div.style.gap = "10px";
+      div.style.alignItems = "center";
+      div.innerHTML = `
+        <input class="input" name="spouse_names" value="" placeholder="مثال: فاطمة السيد">
+        <button type="button" class="ghostBtn spRemove" style="min-width:90px">حذف</button>
+      `;
+      wrap.appendChild(div);
+      bindRemoveButtons();
+      div.querySelector("input")?.focus();
+    };
+  </script>
+</body>
+</html>

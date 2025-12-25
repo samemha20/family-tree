@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>إدارة صفحات الموقع</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title">إدارة صفحات الموقع</div>
+      <div class="subtitle">تحكم في النبذة والدعم وصفحة PDF</div>
+    </div>
+  </div>
+
+  <nav class="topnav">
+    <a class="navLink" href="/">الشجرة</a>
+    <a class="navLink" href="/about">نبذة</a>
+    <a class="navLink" href="/honor">قائمة الشرف</a>
+    <a class="navLink" href="/tree-pdf">شجرة PDF</a>
+    <a class="navLink" href="/support">الدعم</a>
+  </nav>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin">الأشخاص</a>
+    <a class="adminBtn" href="/admin/honor">إدارة الشرف</a>
+    <form method="post" action="/admin/logout" style="margin:0">
+      <button class="adminBtn" type="submit">تسجيل خروج</button>
+    </form>
+  </div>
+</header>
+
+<div class="page">
+  <% if (saved) { %>
+    <div class="card" style="margin-bottom:12px">
+      <div class="cardBody" style="font-weight:900; color:#22c55e">✅ تم حفظ التعديلات</div>
+    </div>
+  <% } %>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="cardHeader"><div style="font-weight:950">نبذة عن العائلة</div></div>
+    <div class="cardBody">
+      <form method="post" action="/admin/pages/save">
+        <input type="hidden" name="slug" value="about">
+        <label>العنوان</label>
+        <input class="input" name="title" value="<%= about?.title || '' %>">
+        <label>وصف مختصر</label>
+        <input class="input" name="subtitle" value="<%= about?.subtitle || '' %>">
+        <label>المحتوى (نص حر)</label>
+        <textarea class="input" name="content" rows="6"><%= about?.content || '' %></textarea>
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">حفظ</button>
+          <a class="ghostBtn" href="/about" style="text-decoration:none">عرض الصفحة</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="cardHeader"><div style="font-weight:950">صفحة شجرة PDF</div></div>
+    <div class="cardBody">
+      <form method="post" action="/admin/pages/save">
+        <input type="hidden" name="slug" value="tree-pdf">
+        <label>العنوان</label>
+        <input class="input" name="title" value="<%= treepdf?.title || '' %>">
+        <label>وصف مختصر</label>
+        <input class="input" name="subtitle" value="<%= treepdf?.subtitle || '' %>">
+        <label>محتوى أعلى الـ PDF (نص حر)</label>
+        <textarea class="input" name="content" rows="5"><%= treepdf?.content || '' %></textarea>
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">حفظ</button>
+          <a class="ghostBtn" href="/tree-pdf" style="text-decoration:none">عرض الصفحة</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardHeader"><div style="font-weight:950">صفحة الدعم والشكاوى</div></div>
+    <div class="cardBody">
+      <form method="post" action="/admin/pages/save">
+        <input type="hidden" name="slug" value="support">
+        <label>العنوان</label>
+        <input class="input" name="title" value="<%= support?.title || '' %>">
+        <label>وصف مختصر</label>
+        <input class="input" name="subtitle" value="<%= support?.subtitle || '' %>">
+        <label>نص إضافي (مثلاً: إرشادات/قنوات تواصل)</label>
+        <textarea class="input" name="content" rows="6"><%= support?.content || '' %></textarea>
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">حفظ</button>
+          <a class="ghostBtn" href="/support" style="text-decoration:none">عرض الصفحة</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

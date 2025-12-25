@@ -1,0 +1,649 @@
+/* ===== Theme tokens (default: dark) ===== */
+:root{
+  --bg:#0b1220;
+  --panel: rgba(15,23,42,.62);
+  --panel2: rgba(2,6,23,.35);
+  --stroke: rgba(255,255,255,.08);
+
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+
+  --gold:#c7a24b;
+  --gold2:#e3c46a;
+
+  --shadow: 0 18px 60px rgba(0,0,0,.45);
+
+  --canvasDot: rgba(255,255,255,.055);
+  --link: rgba(148,163,184,.55);
+  --modalBg: rgba(0,0,0,.55);
+
+  --cardFill: #ffffff;
+  --cardInner: #f8fafc;
+  --cardText: #0b1220;
+  --cardMeta: rgba(11,18,32,.75);
+}
+
+/* ===== Light Theme ===== */
+html[data-theme="light"]{
+  --bg:#f6f7f9;
+  --panel: rgba(255,255,255,.92);
+  --panel2: rgba(255,255,255,.75);
+  --stroke: rgba(0,0,0,.08);
+
+  --text:#111827;
+  --muted:#6b7280;
+
+  --shadow: 0 18px 60px rgba(0,0,0,.12);
+
+  --canvasDot: rgba(17,24,39,.08);
+  --link: rgba(100,116,139,.70);
+  --modalBg: rgba(17,24,39,.45);
+
+  --cardFill: #ffffff;
+  --cardInner: #f9fafb;
+  --cardText: #111827;
+  --cardMeta: rgba(17,24,39,.70);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 600px at 70% 0%, rgba(199,162,75,.14), transparent 55%),
+    radial-gradient(900px 600px at 15% 25%, rgba(59,130,246,.10), transparent 55%),
+    var(--bg);
+}
+
+/* =========================
+   Topbar
+   ========================= */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 16px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  background: var(--panel);
+  border-bottom:1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+}
+
+.brand{display:flex; align-items:center; gap:12px}
+.brandText{display:flex; flex-direction:column}
+
+.logo{
+  width:42px; height:42px; border-radius:16px;
+  display:grid; place-items:center;
+  background: linear-gradient(135deg, rgba(199,162,75,.28), rgba(255,255,255,.06));
+  border:1px solid rgba(199,162,75,.35);
+  font-weight:900;
+}
+
+.title{font-size:18px; font-weight:950}
+.subtitle{font-size:12px; color:var(--muted); margin-top:3px}
+
+.actions{display:flex; align-items:center; gap:10px}
+
+.adminBtn{
+  text-decoration:none;
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--stroke);
+  cursor:pointer;
+}
+.adminBtn:hover{background:rgba(255,255,255,.09)}
+
+/* =========================
+   Global Site Additions (Navbar + Logo)
+   ========================= */
+
+/* Logo in header (FREE / no box) */
+/* Logo: free (not boxed) + theme-aware */
+:root{
+  --logoFilter: invert(1) brightness(1.1); /* dark theme: make black SVG visible */
+  --logoMaxW: 180px;
+  --logoH: 46px;
+}
+
+html[data-theme="light"]{
+  --logoFilter: none; /* light theme: keep black */
+}
+
+.brandLogo{
+  height: var(--logoH);
+  width: auto;                 /* ✅ مش مربع */
+  max-width: var(--logoMaxW);  /* ✅ أقصى عرض */
+  object-fit: contain;
+  background: transparent;     /* ✅ بدون صندوق */
+  border: 0;                   /* ✅ بدون بوردر */
+  border-radius: 0;            /* ✅ حر */
+  box-shadow: none;            /* ✅ بدون ظل */
+  filter: var(--logoFilter);   /* ✅ يعكس اللون تلقائيًا للداكن */
+}
+
+
+/* Top navigation */
+.topnav{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:6px 8px;
+  border-radius:16px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+}
+
+.navLink{
+  padding:9px 12px;
+  border-radius:999px;
+  text-decoration:none;
+  color: var(--muted);
+  border:1px solid transparent;
+  font-weight:900;
+  font-size:13px;
+}
+.navLink:hover{
+  color:var(--text);
+  border-color:var(--stroke);
+  background: rgba(255,255,255,.05);
+}
+.navLink.active{
+  color:#111827;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  border-color: rgba(0,0,0,.08);
+}
+
+/* Responsive header stack */
+@media (max-width: 980px){
+  .topbar{flex-wrap:wrap}
+  .topnav{width:100%; justify-content:center}
+  .actions{width:100%; justify-content:flex-start}
+}
+
+/* =========================
+   Workspace (Tree Page)
+   ========================= */
+.workspace{
+  display:grid;
+  grid-template-columns: 360px 1fr;
+  gap:14px;
+  padding:14px;
+  align-items:start;
+}
+
+/* Drawer */
+.drawer{
+  background: var(--panel);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  position:sticky;
+  top:74px;
+  height: calc(100vh - 96px);
+}
+
+.drawerHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  border-bottom:1px solid var(--stroke);
+  background: var(--panel2);
+}
+.drawerTitle{font-weight:950}
+.drawerSub{font-size:12px; color:var(--muted); margin-top:3px}
+.drawerBody{padding:12px}
+.muted{color:var(--muted)}
+
+.kvs{
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  overflow:hidden;
+  background:rgba(255,255,255,.03);
+}
+.kvs > div{
+  padding:10px 12px;
+  border-bottom:1px solid var(--stroke);
+}
+.kvs > div:last-child{border-bottom:0}
+
+/* Canvas card */
+.canvasCard{
+  background: var(--panel);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+/* Toolbar */
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-bottom:1px solid var(--stroke);
+  background: var(--panel2);
+}
+.toolgroup{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+
+.search{
+  width:280px;
+  max-width: 55vw;
+  border-radius:14px;
+  padding:10px 12px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  outline:none;
+}
+.search::placeholder{color:rgba(229,231,235,.55)}
+html[data-theme="light"] .search::placeholder{color:rgba(17,24,39,.45)}
+
+.primaryBtn{
+  border:0;
+  border-radius:14px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-weight:900;
+  color:#111827;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+}
+.primaryBtn:hover{filter: brightness(1.05)}
+
+.ghostBtn{
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  border-radius:14px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-weight:800;
+}
+.ghostBtn:hover{background:rgba(255,255,255,.08)}
+
+.iconBtn{
+  width:40px; height:40px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  color:var(--text);
+  cursor:pointer;
+  font-size:18px;
+}
+.iconBtn:hover{background:rgba(255,255,255,.08)}
+
+/* Canvas (Responsive height) */
+.treeCanvas{
+  height: calc(100vh - 160px);
+  min-height: 520px;
+  position:relative;
+  background:
+    radial-gradient(circle at 1px 1px, var(--canvasDot) 1px, transparent 0) 0 0/18px 18px,
+    radial-gradient(900px 520px at 75% 25%, rgba(199,162,75,.08), transparent 55%),
+    radial-gradient(900px 520px at 20% 65%, rgba(59,130,246,.06), transparent 55%),
+    rgba(2,6,23,.10);
+}
+
+html[data-theme="light"] .treeCanvas{
+  background:
+    radial-gradient(circle at 1px 1px, var(--canvasDot) 1px, transparent 0) 0 0/18px 18px,
+    radial-gradient(900px 520px at 75% 25%, rgba(199,162,75,.08), transparent 55%),
+    radial-gradient(900px 520px at 20% 65%, rgba(59,130,246,.06), transparent 55%),
+    rgba(255,255,255,.70);
+}
+
+/* SVG must follow container height (NO fixed 720px here) */
+#tree svg{width:100%; height:100%}
+
+/* SVG nodes/links */
+.link{
+  fill:none;
+  stroke: var(--link);
+  stroke-width: 2;
+}
+.nodeCard{cursor:pointer; filter: drop-shadow(0 12px 22px rgba(0,0,0,.35))}
+.nodeName{font-size:14px; font-weight:950; fill: var(--cardText)}
+.nodeMeta{font-size:11px; fill: var(--cardMeta)}
+
+.nodeSelected{
+  filter: drop-shadow(0 0 14px rgba(227,196,106,.55)) drop-shadow(0 18px 24px rgba(0,0,0,.35));
+}
+
+/* Footer */
+.footnote{
+  padding:10px 12px;
+  border-top:1px solid var(--stroke);
+  color:rgba(229,231,235,.70);
+  font-size:12px;
+  background: rgba(2,6,23,.12);
+}
+html[data-theme="light"] .footnote{
+  color:rgba(17,24,39,.65);
+  background: rgba(255,255,255,.65);
+}
+
+/* Modal */
+.modal{
+  position:fixed;
+  inset:0;
+  background: var(--modalBg);
+  display:grid;
+  place-items:center;
+  padding:16px;
+  z-index:50;
+}
+.modalContent{
+  width:min(720px, 100%);
+  background: var(--panel);
+  color:var(--text);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  padding:16px;
+  box-shadow: var(--shadow);
+  position:relative;
+}
+.close{
+  position:absolute;
+  left:12px; top:10px;
+  width:40px; height:40px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  cursor:pointer;
+  font-size:18px;
+}
+.hidden{display:none}
+
+/* =========================
+   Admin pages simple layout
+   ========================= */
+.page{
+  max-width: 1100px;
+  margin: 14px auto;
+  padding: 0 14px 18px;
+}
+.card{
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.cardHeader{
+  padding: 14px;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--panel2);
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+}
+.cardBody{padding:14px}
+.table{width:100%; border-collapse:collapse}
+.table th,.table td{padding:10px 8px; border-bottom:1px solid var(--stroke); text-align:right; font-size:14px}
+.table th{color:var(--muted); font-weight:900}
+.small{font-size:12px; color:var(--muted)}
+.rowActions{display:flex; gap:8px; flex-wrap:wrap}
+
+.input, select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  outline:none;
+}
+label{display:block; margin:10px 0 6px; font-weight:900}
+
+.preview{
+  width:120px; height:120px; border-radius:18px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.06);
+  object-fit: cover;
+}
+.btnRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+
+/* =========================
+   Pages Layout (About/Honor/Support/PDF)
+   ========================= */
+.pageWrap{
+  max-width:1100px;
+  margin: 14px auto;
+  padding: 0 14px 26px;
+}
+
+.hero{
+  background: linear-gradient(135deg, rgba(199,162,75,.12), rgba(59,130,246,.08));
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  box-shadow: var(--shadow);
+  padding:16px;
+  margin-top:14px;
+}
+
+.heroTitle{
+  margin:0;
+  font-size:26px;
+  font-weight:950;
+}
+.heroSub{
+  margin:6px 0 0;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap:14px;
+  margin-top:14px;
+}
+@media (max-width: 980px){
+  .grid{grid-template-columns:1fr}
+}
+
+.panel{
+  background: var(--panel);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+.panelHeader{
+  padding:14px;
+  border-bottom:1px solid var(--stroke);
+  background: var(--panel2);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.panelTitle{
+  margin:0;
+  font-weight:950;
+  font-size:16px;
+}
+.panelBody{padding:14px}
+
+.p{
+  margin:0;
+  color:var(--text);
+  line-height:1.95;
+}
+.p + .p{margin-top:10px}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.05);
+  color: var(--text);
+  font-weight:900;
+  font-size:12px;
+}
+
+/* Honor cards */
+.cards{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:12px;
+}
+@media (max-width: 980px){
+  .cards{grid-template-columns:1fr}
+}
+.hCard{
+  background: rgba(255,255,255,.04);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  padding:12px;
+}
+.hName{font-weight:950; margin:0 0 6px}
+.hMeta{margin:0; color:var(--muted); font-size:12px; line-height:1.7}
+
+/* Support form */
+.formRow{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+@media (max-width: 980px){ .formRow{grid-template-columns:1fr} }
+
+.helpText{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+/* PDF Frame (ornate) */
+.pdfFrame{
+  margin-top:14px;
+  padding:14px;
+  border-radius:20px;
+  border:1px solid rgba(199,162,75,.28);
+  background: linear-gradient(135deg, rgba(199,162,75,.08), rgba(255,255,255,.03));
+  box-shadow: var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.pdfFrame::before{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(199,162,75,.18), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(59,130,246,.10), transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(227,196,106,.10), transparent 60%);
+  pointer-events:none;
+}
+.pdfInner{
+  position:relative;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--stroke);
+  background: rgba(0,0,0,.12);
+}
+.pdfInner iframe{
+  width:100%;
+  height: min(78vh, 920px);
+  border:0;
+  display:block;
+  background: var(--bg);
+}
+
+/* =========================
+   Responsive
+   ========================= */
+@media (max-width: 1100px){
+  .workspace{grid-template-columns:1fr}
+  .drawer{position:relative; top:auto; height:auto}
+  .treeCanvas{height:640px}
+  #tree svg{height:100%}
+}
+/* =========================
+   FIX: Drawer as Overlay (Tree always full width)
+   Add this at END of styles.css
+   ========================= */
+
+/* خلي الشجرة تاخد عرض الصفحة بالكامل */
+.workspace{
+  grid-template-columns: 1fr !important;
+}
+
+/* مهم جدًا عشان الـ grid مايكسرش */
+.canvasCard{ min-width: 0; }
+
+/* امنع أي height ثابت للـ SVG (كان عندك height:720px في مكان تاني) */
+#tree svg{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* الدروار يبقى Overlay مش عمود */
+.drawer{
+  position: fixed !important;
+  top: 74px !important;
+  right: 14px !important;
+  width: 360px;
+  max-width: calc(100vw - 28px);
+  height: calc(100vh - 96px) !important;
+  z-index: 30 !important;
+
+  /* يبدأ مخفي خارج الشاشة */
+  transform: translateX(calc(100% + 20px));
+  opacity: 0;
+  pointer-events: none;
+
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+/* لما يفتح */
+.drawer.isOpen{
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* موبايل */
+@media (max-width: 980px){
+  .drawer{
+    width: min(420px, calc(100vw - 28px));
+    top: 66px !important;
+    height: calc(100vh - 86px) !important;
+  }
+}
+/* ===== FIX: show only one logo (dark/light) ===== */
+.brand .brandLogo{
+  display: none !important;   /* اخفي كل اللوجوهات افتراضياً */
+  height: 48px;
+  width: auto;
+  max-width: 260px;
+  object-fit: contain;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* الوضع الداكن: أظهر dark */
+html:not([data-theme="light"]) .brand .logoDark{
+  display: block !important;
+}
+
+/* الوضع الفاتح: أظهر light */
+html[data-theme="light"] .brand .logoLight{
+  display: block !important;
+}

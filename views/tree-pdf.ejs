@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= page.title %> - شجرة العائلة</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<%- include('partials/header', {
+  active: 'treepdf',
+  title: page.title,
+  subtitle: page.subtitle
+}) %>
+
+<main class="pageWrap">
+  <section class="hero">
+    <h1 class="heroTitle"><%= page.title %></h1>
+    <p class="heroSub"><%= page.subtitle %></p>
+  </section>
+
+  <section class="pdfFrame">
+    <div class="pdfInner">
+      <iframe src="/assets/family-tree.pdf"></iframe>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

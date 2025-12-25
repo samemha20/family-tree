@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= page.title %> - شجرة العائلة</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<%- include('partials/header', {
+  active: 'support',
+  title: page.title,
+  subtitle: page.subtitle
+}) %>
+
+<main class="pageWrap">
+  <section class="hero">
+    <h1 class="heroTitle"><%= page.title %></h1>
+    <p class="heroSub"><%= page.subtitle %></p>
+  </section>
+
+  <% if (sent) { %>
+    <div class="panel" style="margin-top:14px;">
+      <div class="panelBody">
+        <p class="p" style="font-weight:900">✅ تم إرسال رسالتك بنجاح. شكرًا لك.</p>
+      </div>
+    </div>
+  <% } %>
+
+  <section class="panel" style="margin-top:14px;">
+    <div class="panelHeader">
+      <h2 class="panelTitle">أرسل رسالتك</h2>
+      <span class="badge">خصوصية • تنظيم</span>
+    </div>
+
+    <div class="panelBody">
+      <div class="p" style="margin-bottom:12px">
+        <%- page.content %>
+      </div>
+
+      <form method="post" action="/support">
+        <div class="formRow">
+          <div>
+            <label>الاسم</label>
+            <input class="input" name="sender_name" placeholder="اكتب اسمك" required />
+          </div>
+          <div>
+            <label>رقم الهاتف (اختياري)</label>
+            <input class="input" name="phone" placeholder="01xxxxxxxxx" />
+          </div>
+        </div>
+
+        <label style="margin-top:10px;">نوع الرسالة</label>
+        <select class="input" name="topic" required>
+          <option value="">اختر...</option>
+          <option>اقتراح</option>
+          <option>شكوى</option>
+          <option>دعم فني</option>
+          <option>تصحيح بيانات شخص</option>
+        </select>
+
+        <label style="margin-top:10px;">الرسالة</label>
+        <textarea class="input" name="message" rows="6" placeholder="اكتب التفاصيل..." required></textarea>
+
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">إرسال</button>
+          <a class="ghostBtn" href="/" style="text-decoration:none">رجوع للشجرة</a>
+        </div>
+
+        <div class="helpText">
+          تُحفظ الرسائل داخل قاعدة البيانات وتظهر في لوحة الإدارة داخل “رسائل الدعم”.
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

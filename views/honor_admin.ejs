@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>إدارة قائمة الشرف</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title">إدارة قائمة الشرف</div>
+      <div class="subtitle">إضافة/تعديل/حذف وترتيب</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin">الأشخاص</a>
+    <a class="adminBtn" href="/admin/pages">إدارة الصفحات</a>
+    <a class="adminBtn" href="/honor">عرض القائمة</a>
+    <a class="adminBtn" href="/admin/honor/new">إضافة عنصر</a>
+    <form method="post" action="/admin/logout" style="margin:0">
+      <button class="adminBtn" type="submit">تسجيل خروج</button>
+    </form>
+  </div>
+</header>
+
+<div class="page">
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <div style="font-weight:950">العناصر</div>
+        <div class="small">الترتيب حسب ord ثم id</div>
+      </div>
+      <a class="primaryBtn" href="/admin/honor/new" style="text-decoration:none">إضافة عنصر</a>
+    </div>
+
+    <div class="cardBody" style="overflow:auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>الاسم</th>
+            <th>المجال</th>
+            <th>الترتيب</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i=0; i<items.length; i++){ const x = items[i]; %>
+            <tr>
+              <td><%= x.id %></td>
+              <td><%= x.name %></td>
+              <td class="small"><%= x.field || "-" %></td>
+              <td><%= x.ord %></td>
+              <td>
+                <div class="rowActions">
+                  <a class="ghostBtn" href="/admin/honor/<%= x.id %>/edit">تعديل</a>
+                  <form method="post" action="/admin/honor/<%= x.id %>/delete" style="margin:0" onsubmit="return confirm('حذف العنصر؟');">
+                    <button class="ghostBtn" type="submit">حذف</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

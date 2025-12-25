@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>شجرة العائلة</title>
+
+  <!-- Theme must load early -->
+  <script src="/theme.js"></script>
+
+  <link rel="stylesheet" href="/styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+     <img class="brandLogo logoDark"  src="/assets/logo-dark.svg"  alt="شعار العائلة" />
+<img class="brandLogo logoLight" src="/assets/logo-light.svg" alt="شعار العائلة" />
+
+      <div class="brandText">
+        <div class="title">شجرة العائلة</div>
+        <div class="subtitle">اضغط على أي شخص لتفعيل وضع التركيز، واسحب للتنقل</div>
+      </div>
+    </div>
+
+    <nav class="topnav" aria-label="التنقل الرئيسي">
+      <a class="navLink active" href="/">الشجرة</a>
+      <a class="navLink" href="/about">نبذة</a>
+      <a class="navLink" href="/honor">قائمة الشرف</a>
+      <a class="navLink" href="/tree-pdf">شجرة PDF</a>
+      <a class="navLink" href="/support">الدعم</a>
+    </nav>
+
+    <div class="actions">
+      <button id="themeToggle" class="adminBtn" type="button" aria-pressed="true">الوضع: داكن</button>
+      <a class="adminBtn" href="/admin/login">لوحة الإدارة</a>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside id="drawer" class="drawer">
+      <div class="drawerHeader">
+        <div>
+          <div class="drawerTitle">بيانات الشخص</div>
+          <div class="drawerSub">تظهر عند اختيار أي شخص من الشجرة</div>
+        </div>
+        <button id="closeDrawer" class="iconBtn" type="button" aria-label="إغلاق">×</button>
+      </div>
+
+      <div id="details" class="drawerBody muted">
+        اختر شخصاً من الشجرة.
+      </div>
+    </aside>
+
+    <section class="canvasCard">
+      <div class="toolbar">
+        <div class="toolgroup">
+          <input id="search" class="search" placeholder="بحث بالاسم..." />
+          <button id="resetView" class="ghostBtn" type="button">عرض الشجرة كاملة</button>
+          <button id="focusMode" class="ghostBtn" type="button" title="يظهر الشخص + الآباء + الأبناء">وضع التركيز</button>
+        </div>
+
+        <div class="toolgroup">
+          <button id="zoomOut" class="iconBtn" type="button" title="تصغير">−</button>
+          <button id="zoomIn" class="iconBtn" type="button" title="تكبير">+</button>
+          <button id="fit" class="ghostBtn" type="button">ملاءمة</button>
+          <button id="toggleDetails" class="primaryBtn" type="button">التفاصيل</button>
+        </div>
+      </div>
+
+      <div id="tree" class="treeCanvas"></div>
+
+      <div class="footnote">
+        تلميح: عجلة الماوس للتكبير/التصغير، واضغط خارج الأشخاص للعودة للشجرة كاملة.
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modalContent">
+      <button id="closeModal" class="close" aria-label="إغلاق">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

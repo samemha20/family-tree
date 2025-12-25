@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>لوحة الإدارة</title>
+
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title">لوحة الإدارة</div>
+      <div class="subtitle">إدارة الأشخاص وبياناتهم</div>
+    </div>
+  </div>
+
+  <nav class="topnav" aria-label="التنقل الرئيسي">
+    <a class="navLink" href="/">الشجرة</a>
+    <a class="navLink" href="/about">نبذة</a>
+    <a class="navLink" href="/honor">قائمة الشرف</a>
+    <a class="navLink" href="/tree-pdf">شجرة PDF</a>
+    <a class="navLink" href="/support">الدعم</a>
+  </nav>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+
+    <a class="adminBtn" href="/admin/pages">إدارة الصفحات</a>
+    <a class="adminBtn" href="/admin/honor">إدارة الشرف</a>
+    <a class="adminBtn" href="/admin/support-messages">رسائل الدعم</a>
+
+    <a class="adminBtn" href="/">العودة للشجرة</a>
+
+    <form method="post" action="/admin/logout" style="margin:0">
+      <button class="adminBtn" type="submit">تسجيل خروج</button>
+    </form>
+  </div>
+</header>
+
+<div class="page">
+  <div class="card">
+    <div class="cardHeader">
+      <div>
+        <div style="font-weight:950">الأشخاص</div>
+        <div class="small">إضافة / تعديل / حذف بيانات العائلة</div>
+      </div>
+      <a class="primaryBtn" href="/admin/person/new" style="text-decoration:none">إضافة شخص</a>
+    </div>
+
+    <div class="cardBody" style="overflow:auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>الاسم</th>
+            <th>الأب</th>
+            <th>الزوج/الزوجة</th>
+            <th>الصورة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < persons.length; i++) { 
+               const p = persons[i]; %>
+            <tr>
+              <td><%= p.id %></td>
+              <td><%= p.name %></td>
+              <td><%= p.father_name || "-" %></td>
+              <td class="small"><%= p.spouses_text || "-" %></td>
+              <td class="small"><%= p.photo_url || "-" %></td>
+              <td>
+                <div class="rowActions">
+                  <a class="ghostBtn" href="/admin/person/<%= p.id %>/edit">تعديل</a>
+                  <form method="post" action="/admin/person/<%= p.id %>/delete"
+                        style="margin:0"
+                        onsubmit="return confirm('متأكد من حذف هذا الشخص؟');">
+                    <button class="ghostBtn" type="submit">حذف</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

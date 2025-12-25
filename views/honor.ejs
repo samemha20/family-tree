@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>قائمة الشرف - شجرة العائلة</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<%- include('partials/header', {
+  active: 'honor',
+  title: 'قائمة الشرف',
+  subtitle: 'أشهر العلماء والرموز والشخصيات المؤثرة'
+}) %>
+
+<main class="pageWrap">
+  <section class="hero">
+    <h1 class="heroTitle">قائمة الشرف</h1>
+    <p class="heroSub">أسماء وإنجازات تم إدخالها من لوحة الإدارة.</p>
+  </section>
+
+  <section class="panel" style="margin-top:14px;">
+    <div class="panelHeader">
+      <h2 class="panelTitle">الرموز والشخصيات</h2>
+      <span class="badge">كروت</span>
+    </div>
+
+    <div class="panelBody">
+      <% if (!items || !items.length) { %>
+        <p class="p muted">لا توجد عناصر بعد. ادخل لوحة الإدارة → إدارة الشرف.</p>
+      <% } else { %>
+        <div class="cards">
+          <% items.forEach(it => { %>
+            <div class="hCard">
+              <p class="hName"><%= it.name %></p>
+              <p class="hMeta">المجال: <%= it.field || "-" %></p>
+              <p class="hMeta">إنجاز مختصر: <%= it.achievement || "-" %></p>
+              <% if (it.photo_url) { %>
+                <div style="margin-top:10px">
+                  <img src="<%= it.photo_url %>" alt="<%= it.name %>"
+                       style="width:100%;height:160px;object-fit:cover;border-radius:14px;border:1px solid var(--stroke)">
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

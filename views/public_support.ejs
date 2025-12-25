@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= page?.title || "الدعم" %></title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+    <div class="brandText">
+      <div class="title"><%= page?.title || "" %></div>
+      <div class="subtitle"><%= page?.subtitle || "" %></div>
+    </div>
+  </div>
+
+  <nav class="topnav">
+    <a class="navLink" href="/">الشجرة</a>
+    <a class="navLink" href="/about">نبذة</a>
+    <a class="navLink" href="/honor">قائمة الشرف</a>
+    <a class="navLink" href="/tree-pdf">شجرة PDF</a>
+    <a class="navLink active" href="/support">الدعم</a>
+  </nav>
+
+  <div class="actions">
+    <button id="themeToggle" class="adminBtn" type="button">الوضع: داكن</button>
+    <a class="adminBtn" href="/admin/login">لوحة الإدارة</a>
+  </div>
+</header>
+
+<main class="page">
+  <% if (sent) { %>
+    <div class="card" style="margin-bottom:12px">
+      <div class="cardBody" style="font-weight:900; color:#22c55e">✅ تم إرسال الرسالة بنجاح</div>
+    </div>
+  <% } %>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="cardHeader"><div style="font-weight:950">تعليمات</div></div>
+    <div class="cardBody">
+      <div class="muted" style="line-height:1.9">
+        <%= (page?.content || "اكتب تعليمات الدعم هنا من لوحة الإدارة.").replace(/\n/g, "<br>") %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardHeader"><div style="font-weight:950">نموذج الإرسال</div></div>
+    <div class="cardBody">
+      <form method="post" action="/support/send">
+        <label>الاسم</label>
+        <input class="input" name="sender_name" required>
+
+        <label>رقم التواصل (اختياري)</label>
+        <input class="input" name="phone">
+
+        <label>الرسالة</label>
+        <textarea class="input" name="message" rows="5" required></textarea>
+
+        <div class="btnRow">
+          <button class="primaryBtn" type="submit">إرسال</button>
+          <a class="ghostBtn" href="/" style="text-decoration:none">رجوع</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

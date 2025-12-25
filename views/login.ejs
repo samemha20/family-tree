@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>تسجيل دخول الإدارة</title>
+
+  <!-- Theme must load early -->
+  <script src="/theme.js"></script>
+
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="brandLogo" src="/assets/logo.png" alt="شعار العائلة" />
+      <div class="brandText">
+        <div class="title">لوحة الإدارة</div>
+        <div class="subtitle">تسجيل الدخول</div>
+      </div>
+    </div>
+
+    <nav class="topnav" aria-label="التنقل الرئيسي">
+      <a class="navLink" href="/">الشجرة</a>
+      <a class="navLink" href="/pages/about.html">نبذة</a>
+      <a class="navLink" href="/pages/honor.html">قائمة الشرف</a>
+      <a class="navLink" href="/pages/support.html">الدعم</a>
+      <a class="navLink" href="/pages/tree-pdf.html">شجرة PDF</a>
+    </nav>
+
+    <div class="actions">
+      <button id="themeToggle" class="adminBtn" type="button" aria-pressed="true">الوضع: داكن</button>
+      <a class="adminBtn" href="/">العودة للشجرة</a>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="card">
+      <div class="cardHeader">
+        <div>
+          <div style="font-weight:950">تسجيل الدخول</div>
+          <div class="small">أدخل اسم المستخدم وكلمة المرور</div>
+        </div>
+      </div>
+      <div class="cardBody">
+        <% if (error) { %>
+          <div class="small" style="color:#ef4444; font-weight:900; margin-bottom:10px"><%= error %></div>
+        <% } %>
+
+        <form method="post" action="/admin/login">
+          <label>اسم المستخدم</label>
+          <input class="input" name="username" required>
+
+          <label>كلمة المرور</label>
+          <input class="input" name="password" type="password" required>
+
+          <div class="btnRow">
+            <button class="primaryBtn" type="submit">دخول</button>
+            <a class="ghostBtn" href="/">رجوع</a>
+          </div>
+
+          <div class="small" style="margin-top:10px">
+            ملاحظة: الثيم الآن موحّد على كل صفحات الموقع والأدمن.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
